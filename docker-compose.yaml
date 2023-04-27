@@ -1,0 +1,29 @@
+version: "3.8"
+services:
+  openfortivpn:
+    tty: true
+    image: gzoratti/openfortivpnrealm:1.0
+    network_mode: "host"
+    privileged: true
+    ipc: "host"
+    user: 0:0
+    cap_add:
+      - ALL
+    volumes:
+      - "/dev:/dev"
+    environment:
+      - "host=${host}"
+      - "port=${port}"
+      - "username=${username}"
+      - "password=${password}"
+      - "realm=${realm}"
+      - "trustedcert=${trustedcert}"
+      - "TZ=${TZ}"
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "2"
+          memory: 4G
+      restart_policy:
+        condition: on-failure
